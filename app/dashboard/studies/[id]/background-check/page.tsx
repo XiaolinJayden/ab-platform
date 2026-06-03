@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { BackgroundCheckQuestion, QuestionType } from '@/lib/types'
 
-async function downloadFile(studyId: string, format: 'csv' | 'json', studyTitle: string) {
+async function downloadResponses(studyId: string, format: 'csv' | 'json', studyTitle: string) {
   const { data: { session } } = await supabase.auth.getSession()
   const token = session?.access_token
   const res = await fetch(`/api/export-background-check?studyId=${studyId}&format=${format}`, {
@@ -88,7 +88,7 @@ export default function BackgroundCheckPage() {
 
   async function handleDownload(format: 'csv' | 'json') {
     setDownloading(format)
-    await downloadFile(studyId, format, studyTitle)
+    await downloadResponses(studyId, format, studyTitle)
     setDownloading(null)
   }
 
